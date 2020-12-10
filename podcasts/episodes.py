@@ -1,5 +1,10 @@
 #MODULE IMPORTS 
+import os 
 import json
+import sqlite3
+
+from pandas.core.frame import DataFrame
+import dotenv 
 import spotipy 
 import requests 
 import datetime
@@ -10,10 +15,10 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 
 #OAUTH & PARAMS
-client_id = 'client_id'
-client_secret = 'client_secret'
-username = 'username'
-scope = 'scope'
+client_id = '495c67c3aa8041ffaf6377a055f9afea'
+client_secret = '179f55a4343445739293b00b00168df6'
+username = '1262232648'
+scope = 'playlist-modify-public playlist-modify'
 redirect_uri = 'https://developer.spotify.com/dashboard/applications/495c67c3aa8041ffaf6377a055f9afea'
 token = util.prompt_for_user_token(username=username, 
                                    scope=scope, 
@@ -164,4 +169,16 @@ all_episodes.rename(columns = {'show_id':'show_name'}, inplace = True)
 all_episodes['show_name'] = all_episodes['show_name'].str[0]
 
 
-all_episodes.to_csv('datascience_podcasts.csv')
+#DATABASE PREPARATION
+#all_episodes.to_sql('ds_podcasts.sql')
+PODCASTS = all_episodes
+conn = pgadmin.connect('podcasts.db')
+c = conn.cursor()
+
+c.execute('CREATE TABLE PODCASTS (,SHOW_NAME text, EPISODE_ID number,LENGTH(MS) float, DATE datetime ,EPISODE_NAME text, DESCRIPTION text)')
+conn.commit()
+
+pdd = DataFrame(PODCASTS, columns=['SHOW_NAME','EPISODE_ID', 'LENGTH(MS)', 'DATE','EPISODE_NAME','DESCRIPTION' ])
+pdd.to_sql('PODCASTS', conn, if_exists='replace', index=False)
+
+c.execute('DROP TABLE PODCASTS')
