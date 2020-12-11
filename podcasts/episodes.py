@@ -2,7 +2,6 @@
 import os 
 import json
 import sqlite3
-
 from pandas.core.frame import DataFrame
 import dotenv 
 import spotipy 
@@ -15,11 +14,11 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 
 #OAUTH & PARAMS
-client_id = '495c67c3aa8041ffaf6377a055f9afea'
-client_secret = '179f55a4343445739293b00b00168df6'
-username = '1262232648'
-scope = 'playlist-modify-public playlist-modify'
-redirect_uri = 'https://developer.spotify.com/dashboard/applications/495c67c3aa8041ffaf6377a055f9afea'
+client_id = 'client_id'
+client_secret = 'client_secret '
+username = 'username'
+scope = 'scope'
+redirect_uri = 'redirect_uri'
 token = util.prompt_for_user_token(username=username, 
                                    scope=scope, 
                                    client_id=client_id,   
